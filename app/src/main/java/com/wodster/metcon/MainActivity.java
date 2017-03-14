@@ -25,25 +25,6 @@ public class MainActivity extends AppCompatActivity
 
     private Recorder recorder;
 
-    TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-            //open your camera here
-            recorder.openCamera();
-        }
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            // Transform you image captured size according to the surface width and height
-        }
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-            return false;
-        }
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +32,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextureView textureView = (TextureView) findViewById(R.id.texture);
-        textureView.setSurfaceTextureListener(textureListener);
-        recorder = new Recorder(textureView);
+        recorder = new Recorder();
+
+        if (null == savedInstanceState) {
+            getFragmentManager().beginTransaction().replace(R.id.content_main, recorder).commit();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +97,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            recorder.openCamera();
+            // TODO maybe not the best idea to replace always
+            getFragmentManager().beginTransaction().replace(R.id.content_main, recorder).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
