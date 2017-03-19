@@ -5,9 +5,10 @@ package com.wodster.metcon.util;
  */
 public final class Constants {
 
+    public static final int REQUEST_CAMERA_PERMISSION = 200;
+
     private Constants() {
 
     }
 
-    public static final int REQUEST_CAMERA_PERMISSION = 200;
 }

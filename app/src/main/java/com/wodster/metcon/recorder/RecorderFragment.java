@@ -29,7 +29,7 @@ import java.util.concurrent.Semaphore;
  * Created by Karesz on 2017.03.13..
  */
 //https://inducesmile.com/android/android-camera2-api-example-tutorial/
-public class Recorder extends Fragment {
+public class RecorderFragment extends Fragment {
 
     private static final String TAG = "Recorder";
 
@@ -83,7 +83,7 @@ public class Recorder extends Fragment {
     private final CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice cameraDevice) {
-            Recorder.this.cameraDevice = cameraDevice;
+            RecorderFragment.this.cameraDevice = cameraDevice;
             createCameraPreview();
             cameraOpenCloseLock.release();
             if (null != textureView) {
@@ -95,14 +95,14 @@ public class Recorder extends Fragment {
         public void onDisconnected(CameraDevice cameraDevice) {
             cameraOpenCloseLock.release();
             cameraDevice.close();
-            Recorder.this.cameraDevice = null;
+            RecorderFragment.this.cameraDevice = null;
         }
 
         @Override
         public void onError(CameraDevice cameraDevice, int error) {
             cameraOpenCloseLock.release();
             cameraDevice.close();
-            Recorder.this.cameraDevice = null;
+            RecorderFragment.this.cameraDevice = null;
             Activity activity = getActivity();
             if (null != activity) {
                 activity.finish();
@@ -222,7 +222,7 @@ public class Recorder extends Fragment {
                         return;
                     }
                     // When the session is ready, we start displaying the preview.
-                    Recorder.this.cameraCaptureSession = cameraCaptureSession;
+                    RecorderFragment.this.cameraCaptureSession = cameraCaptureSession;
                     updatePreview();
                 }
 

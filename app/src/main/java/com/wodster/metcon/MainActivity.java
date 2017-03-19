@@ -1,9 +1,7 @@
+
 package com.wodster.metcon;
 
-import android.content.pm.PackageManager;
-import android.graphics.SurfaceTexture;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -14,16 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TextureView;
 import android.view.View;
-import android.widget.Toast;
-import com.wodster.metcon.recorder.Recorder;
-import com.wodster.metcon.util.Constants;
+import com.wodster.metcon.recorder.RecorderFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Recorder recorder;
+    private RecorderFragment recorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +27,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        recorder = new Recorder();
-
-        if (null == savedInstanceState) {
-            getFragmentManager().beginTransaction().replace(R.id.content_main, recorder).commit();
-        }
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -98,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
             // TODO maybe not the best idea to replace always
-            getFragmentManager().beginTransaction().replace(R.id.content_main, recorder).commit();
+            getFragmentManager().beginTransaction().replace(R.id.content_main, getRecorder()).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -116,15 +106,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == Constants.REQUEST_CAMERA_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                // close the app
-                Toast.makeText(MainActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
-                finish();
-            }
+    private RecorderFragment getRecorder() {
+        if(null == recorder) {
+            recorder = new RecorderFragment();
         }
+
+        return recorder;
     }
 
 }
